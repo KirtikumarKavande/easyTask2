@@ -1,8 +1,9 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-import Login from './components/Login/Login';
-import Home from './components/Home/Home';
-import MainHeader from './components/MainHeader/MainHeader';
+import Login from "./components/Login/Login";
+import Home from "./components/Home/Home";
+import MainHeader from "./components/MainHeader/MainHeader";
+import MyUserContex from "./components/Store/UserContex";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -15,22 +16,24 @@ function App() {
 
   const logoutHandler = () => {
     setIsLoggedIn(false);
-    localStorage.removeItem('isLoggedIn')
+    localStorage.removeItem("isLoggedIn");
   };
-  useEffect(()=>{
-    const checkUserIsLoggedInOrNot=localStorage.getItem("isLoggedIn")
-    if(checkUserIsLoggedInOrNot==="1"){
-      setIsLoggedIn(true)
+  useEffect(() => {
+    const checkUserIsLoggedInOrNot = localStorage.getItem("isLoggedIn");
+    if (checkUserIsLoggedInOrNot === "1") {
+      setIsLoggedIn(true);
     }
-      },[])
+  }, []);
 
   return (
     <React.Fragment>
-      <MainHeader isAuthenticated={isLoggedIn} onLogout={logoutHandler} />
-      <main>
-        {!isLoggedIn && <Login onLogin={loginHandler} />}
-        {isLoggedIn && <Home onLogout={logoutHandler} />}
-      </main>
+      <MyUserContex.Provider value={{ isLoggedIn: isLoggedIn,onLogout:logoutHandler }}>
+        <MainHeader isAuthenticated={isLoggedIn} onLogout={logoutHandler} />
+        <main>
+          {!isLoggedIn && <Login onLogin={loginHandler} />}
+          {isLoggedIn && <Home onLogout={logoutHandler} />}
+        </main>
+      </MyUserContex.Provider>
     </React.Fragment>
   );
 }
