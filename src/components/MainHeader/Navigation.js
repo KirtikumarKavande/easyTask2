@@ -1,13 +1,10 @@
 import React, { useContext } from 'react';
 
 import classes from './Navigation.module.css';
-import MyUserContex from '../Store/UserContex';
+import AuthContext from '../Store/UserContex';
 
 const Navigation = (props) => {
-
-
-
-  const data=useContext(MyUserContex)
+ const data=useContext(AuthContext)
   console.log(data)
   return (
     <nav className={classes.nav}>
